@@ -1,0 +1,95 @@
+
+<!DOCTYPE HTML>
+
+<html lang="es"> 
+
+<head>
+
+    <meta charset = "UTF-8">
+    <title> DavanteDent </title> 
+    <link rel="stylesheet" href="style.css">
+
+
+</head>
+
+<body>
+
+    <header>
+
+    <div class="cabecera-centrada">
+        <img src="_Logotipo davantedent.png" alt="logo">
+        <h3>Gestión de citas</h3>
+    </div>
+
+    </header>
+
+    <form id="formularioCita">
+
+        <input type="hidden" id="citaId"> <br>
+
+        <label>Fecha <input type="date" id="fecha"></label> <br>
+        <span class="mensajeError" id="errorFecha" hidden>La fecha es obligatoria</span>
+        <label>Hora <input type="time" id="hora"></label> <br> 
+        <span class="mensajeError" id="errorHora" hidden>La hora es obligatoria</span>
+        <label>Nombre <input type="text" id="nombre"></label> <br>
+        <span class="mensajeError" id="errorNombre" hidden>El nombre es obligatorio</span>
+        <label>Apellidos <input type="text" id="apellidos"></label> <br>
+        <span class="mensajeError" id="errorApellidos" hidden>Los apellidos son obligatorios</span>
+        <label>DNI <input type="text" id="dni"></label> <br> 
+        <span class="mensajeError" id="errorDni" hidden>El dni es obligatorio</span>
+        <label>Teléfono <input type="text" id="telefono"></label> <br>
+        <span class="mensajeError" id="errorTelf" hidden>El teléfono es obligatorio</span>
+        <label>Fecha de nacimiento <input type="date" id="nacimiento"></label> <br>
+        <span class="mensajeError" id="errorNac" hidden>La fecha de nacimiento es obligatoria</span>
+        <label>Observaciones <textarea id="observaciones"></textarea> </label> <br>
+        <span class="mensajeError" id="errorObserv" hidden>El campo observaciones es obligatorio</span>
+
+        
+        <div id="botones">
+        <input type="submit" id="guardar" value="Guardar"> 
+        <input type="button" id="limpiar" value="Limpiar"> 
+        </div>
+
+    </form>
+
+    <table id="tablaCitas">
+
+        <thead> 
+            <tr>
+                <th>Orden</th>
+                <th>Fecha</th>
+                <th>Hora</th>
+                <th>Nombre</th>
+                <th>Apellidos</th>
+                <th>Dni</th>
+                <th>Teléfono</th>
+                <th>Fecha de nacimiento</th>
+                <th>Observaciones</th>
+                <th>Acciones</th>
+            </tr>
+
+        </thead>
+
+        <tbody id="citasBody">
+
+            <tr>
+                <td>
+                    
+                </td>
+                 
+            </tr> 
+
+        </tbody>
+
+        </table>
+
+    <footer>
+        <p>DavanteDent Clínica Dental</p>
+        <p>Telf: 666 666 666 | Email: contacto@davantedent.com</p>
+        <p>Dirección: Calle Úbeda 13, Almeria, España</p>
+    </footer>
+
+    <script src="script.js"></script> 
+    
+</body>
+
