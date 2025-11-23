@@ -1,4 +1,4 @@
-
+//elementos del formulario
 const fecha = document.getElementById("fecha");
 const hora = document.getElementById("hora");
 const nombre = document.getElementById("nombre");
@@ -8,15 +8,21 @@ const telefono = document.getElementById("telefono");
 const nacimiento = document.getElementById("nacimiento"); 
 const observaciones = document.getElementById("observaciones");
 
+//formulario y tabla de citas
 const formulario = document.getElementById("formularioCita");
 const citasCuerpo = document.getElementById("citasBody"); 
 
+//variables para editar y eliminar 
 let filaEditando = null;
 let filaEliminando = null; 
+
+//variable para saber si el formulario tiene errores
 let error = false;
 
+//array de citas
 let citas = [];
 
+//mensajes de error del formulario por campo
 const errorFecha = document.getElementById("errorFecha");
 const errorHora = document.getElementById("errorHora");
 const errorNombre = document.getElementById("errorNombre");
@@ -26,26 +32,30 @@ const errorTelf = document.getElementById("errorTelf");
 const errorNac = document.getElementById("errorNac");
 const errorObserv = document.getElementById("errorObserv");
 
+//botón para limpiar el formulario
 document.getElementById("limpiar").addEventListener("click", limpiarFormulario);
 
-
+//función para obtener las citas guardadas en cookies
 function getCitasCookie() {
     const cookie = document.cookie.split(";").find(f => f.startsWith("citasDavante="));
     return cookie ? JSON.parse(decodeURIComponent(cookie.split("=")[1])) : [];
 }
 
+//función para guardar citas en la cookies
 function guardarCitasCookie(citas) {
     document.cookie = "citasDavante=" + encodeURIComponent(JSON.stringify(citas)) + "; path=/";
 }
 
+//función para limpiar el formulario
 function limpiarFormulario() {
     formulario.reset();
     document.getElementById("citaId").value = "";
+    //oculta todos los errores
     const errores = [errorFecha,errorHora,errorNombre,errorApellidos,errorDni,errorTelf,errorNac,errorObserv];
     errores.forEach(e => e.hidden = true);
 }
 
-
+//función para validar el formulario antes de guardar
 function validarFormulario() {
     error = false; 
 
@@ -114,6 +124,8 @@ function validarFormulario() {
 renderEmptyRow();
 removeEmptyRow();
 
+
+//función para renderizar la tabla vacía
 function renderEmptyRow() { 
 
     if (document.getElementById("filaVacia")) {
@@ -130,7 +142,8 @@ function renderEmptyRow() {
     tr.appendChild(td);
     citasCuerpo.appendChild(tr);
 }
-    
+
+//función para eliminar la fila vacía si hay citas
 function removeEmptyRow() {
     const fila = document.getElementById("filaVacia");
     if (fila) {
@@ -138,7 +151,7 @@ function removeEmptyRow() {
     }
 }
 
-
+//función para cargar las citas en la tabla
 function citasDavante() {
     citasCuerpo.innerHTML = ""; 
     citas = getCitasCookie();
@@ -150,6 +163,7 @@ function citasDavante() {
     
     removeEmptyRow();
 
+    //crea una fila para cada cita
     citas.forEach((cita, index) => {
         const fila = document.createElement("tr");
         fila.innerHTML = `
@@ -172,11 +186,14 @@ function citasDavante() {
 
 }
 
+//función submit (guardar o editar cita)
 formulario.addEventListener("submit", function (event) {
+    //evita que el formulario recargue la pag
     event.preventDefault();
     console.log("Formulario no enviado");
     validarFormulario();
 
+    //si hay errores no continúa
     if(error) {
         return; 
     }
@@ -184,9 +201,11 @@ formulario.addEventListener("submit", function (event) {
     let idEdicion = document.getElementById("citaId").value;
     citas = getCitasCookie();
 
+    //si estamos editando una cita existente
     if(idEdicion) {
         let citaEncontrada = citas.find(c => c.id == idEdicion);
-
+        
+        //actualizamos los campos
         citaEncontrada.fecha = fecha.value;
         citaEncontrada.hora = hora.value;
         citaEncontrada.nombre = nombre.value;
@@ -196,8 +215,10 @@ formulario.addEventListener("submit", function (event) {
         citaEncontrada.nacimiento = nacimiento.value;
         citaEncontrada.observaciones = observaciones.value; 
 
+        //guardar cambios
         guardarCitasCookie(citas);
 
+        //actualiza la tabla sin recargar
         filaEditando.children[1].textContent = fecha.value;
         filaEditando.children[2].textContent = hora.value;
         filaEditando.children[3].textContent = nombre.value;
@@ -211,8 +232,9 @@ formulario.addEventListener("submit", function (event) {
         document.getElementById("citaId").value = "";
 
     } else {
-
+        //si la cita es nueva
         const cita = {
+            //id único
             id: Date.now(),
             fecha: fecha.value,
             hora: hora.value,
@@ -232,10 +254,12 @@ formulario.addEventListener("submit", function (event) {
         let citasGuardadas = getCitasCookie();
         console.log(citasGuardadas);
         
+        //refresca la tabla
         citasDavante();
         limpiarFormulario(); 
 }); 
 
+    //eventos de editar y eliminar desde la tabla
     citasCuerpo.addEventListener("click", function (event) {
        
        let botonClick = event.target;
@@ -245,11 +269,13 @@ formulario.addEventListener("submit", function (event) {
        console.log(citas);
 
        let citaEncontrada = citas.find(c => c.id == id);
-
+        
+       //si pulsamos editar
        if (botonClick.classList.contains("editarBtn")) {
         const fila = botonClick.parentElement.parentElement;
         filaEditando = fila;
         
+        //rellena el formulario con los datos existentes.
         fecha.value = citaEncontrada.fecha;
         hora.value = citaEncontrada.hora;
         nombre.value = citaEncontrada.nombre;
@@ -262,21 +288,23 @@ formulario.addEventListener("submit", function (event) {
         document.getElementById("citaId").value = id;
        }
 
+       //si pulsamos eliminar
        if(botonClick.classList.contains("eliminarBtn")) {
         const fila = botonClick.parentElement.parentElement;
         filaEliminando = fila;
         fila.remove();
         citas = getCitasCookie();
+        //ellimina del array
         citas = citas.filter(c => c.id != id);
         guardarCitasCookie(citas);
 
         citasDavante();
-        
+        //si no hay citas, muestra la fila vacía
         if(citas.length === 0) {
             renderEmptyRow();
         }
        }
 
     }); 
-
+    //carga las citas cuando la pag termina de cargar 
     window.addEventListener("DOMContentLoaded", citasDavante);
