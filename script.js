@@ -1,3 +1,19 @@
+
+// Clase Cita
+class Cita {
+    constructor({fecha, hora, nombre, apellidos, dni, telefono, nacimiento, observaciones}) {
+        this.id = Date.now(); // identificador único
+        this.fecha = fecha;
+        this.hora = hora;
+        this.nombre = nombre;
+        this.apellidos = apellidos;
+        this.dni = dni;
+        this.telefono = telefono;
+        this.nacimiento = nacimiento;
+        this.observaciones = observaciones;
+    }
+}
+
 //elementos del formulario
 const fecha = document.getElementById("fecha");
 const hora = document.getElementById("hora");
@@ -20,7 +36,13 @@ let filaEliminando = null;
 let error = false;
 
 //array de citas
-let citas = [];
+let citas = []; 
+
+//carga de citas cuando la página termina de cargar
+window.addEventListener("DOMContentLoaded", () => {
+    citas = getCitasCookie();
+    citasDavante();
+});
 
 //mensajes de error del formulario por campo
 const errorFecha = document.getElementById("errorFecha");
@@ -154,7 +176,6 @@ function removeEmptyRow() {
 //función para cargar las citas en la tabla
 function citasDavante() {
     citasCuerpo.innerHTML = ""; 
-    citas = getCitasCookie();
 
     if(citas.length === 0) {
         renderEmptyRow();
@@ -199,11 +220,10 @@ formulario.addEventListener("submit", function (event) {
     }
 
     let idEdicion = document.getElementById("citaId").value;
-    citas = getCitasCookie();
 
     //si estamos editando una cita existente
     if(idEdicion) {
-        let citaEncontrada = citas.find(c => c.id == idEdicion);
+        let citaEncontrada = citas.find(c => c.id == Number(idEdicion));
         
         //actualizamos los campos
         citaEncontrada.fecha = fecha.value;
@@ -233,9 +253,7 @@ formulario.addEventListener("submit", function (event) {
 
     } else {
         //si la cita es nueva
-        const cita = {
-            //id único
-            id: Date.now(),
+        const cita = new Cita({
             fecha: fecha.value,
             hora: hora.value,
             nombre: nombre.value,
@@ -243,16 +261,13 @@ formulario.addEventListener("submit", function (event) {
             dni: dni.value,
             telefono: telefono.value,
             nacimiento: nacimiento.value,
-            observaciones: observaciones.value,
-        };
+            observaciones: observaciones.value
+});
 
         citas.push(cita);
         guardarCitasCookie(citas);
     }
         removeEmptyRow();
-
-        let citasGuardadas = getCitasCookie();
-        console.log(citasGuardadas);
         
         //refresca la tabla
         citasDavante();
@@ -263,9 +278,8 @@ formulario.addEventListener("submit", function (event) {
     citasCuerpo.addEventListener("click", function (event) {
        
        let botonClick = event.target;
-       let id = botonClick.dataset.id;
+       let id = Number(botonClick.dataset.id);
        console.log(id);
-       citas = getCitasCookie();
        console.log(citas);
 
        let citaEncontrada = citas.find(c => c.id == id);
@@ -293,9 +307,8 @@ formulario.addEventListener("submit", function (event) {
         const fila = botonClick.parentElement.parentElement;
         filaEliminando = fila;
         fila.remove();
-        citas = getCitasCookie();
         //ellimina del array
-        citas = citas.filter(c => c.id != id);
+        citas = citas.filter(c => c.id != Number(id));
         guardarCitasCookie(citas);
 
         citasDavante();
@@ -306,5 +319,4 @@ formulario.addEventListener("submit", function (event) {
        }
 
     }); 
-    //carga las citas cuando la pag termina de cargar 
-    window.addEventListener("DOMContentLoaded", citasDavante);
+    
