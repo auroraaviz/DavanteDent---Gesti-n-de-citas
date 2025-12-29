@@ -4,8 +4,8 @@
     background-color: #ffffff;
     color: #333;
     padding: 10px;
-    zoom: 0.85; /* Reduce visualmente todo el contenido */
-}
+
+ }
 
 /* Cabecera centrada */
 .cabecera-centrada {
@@ -14,7 +14,7 @@
 }
 
 .cabecera-centrada img {
-    height: 110px; /* un poco más pequeño */
+    height: 110px; 
     display: block;
     margin: 0 auto 5px auto;
 }
@@ -27,40 +27,40 @@
 
 form {
     background-color: #ffffff;
-    padding: 8px;            /* compacto pero cómodo */
+    padding: 8px;            
     border-radius: 5px;
     margin-bottom: 12px;
-    max-width: 650px;
+    /*max-width: 650px;*/
     margin-left: auto;
     margin-right: auto;
 }
 
 form label {
     display: block;
-    margin-bottom: 2px;       /* antes 1px */
+    margin-bottom: 2px;       
     font-weight: 600;
-    font-size: 0.9em;         /* MÁS GRANDE */
+    font-size: 0.9em;        
 }
 
 form input,
 form textarea {
     width: 100%;
-    padding: 6px;             /* más alto, más cómodo */
-    margin-bottom: 5px;       /* menos separación pero ordenado */
+    padding: 6px;             
+    margin-bottom: 5px;       
     border: 1px solid #7385f7;
     border-radius: 4px;
-    font-size: 0.95em;        /* más grande */
+    font-size: 0.95em;        
 }
 
 form input[type="submit"],
 form input[type="button"] {
-    padding: 6px 12px;        /* tamaño equilibrado */
-    font-size: 0.95em;        /* más legible */
+    padding: 6px 12px;        
+    font-size: 0.95em;        
     margin-right: 6px;
     margin-bottom: 0; 
 }
 
-/* Tabla de citas */
+
 table {
     width: 90%;
     margin: 0 auto;
@@ -84,7 +84,7 @@ tr:nth-child(even) {
     background-color: #f2f2f2;
 }
 
-/* Botones en tabla */
+
 button.editarBtn {
     background-color: #82aae4;
     color: black;
@@ -105,11 +105,10 @@ button.eliminarBtn {
     font-size: 0.75em;
 }
 
-/* Pie de página */
+
 footer {
     margin-top: 10px;
     text-align: center;
     font-size: 0.75em;
     color: #666;
 }
-

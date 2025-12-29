@@ -1,4 +1,3 @@
-
 <!DOCTYPE HTML>
 
 <html lang="es"> 
@@ -8,8 +7,7 @@
     <meta charset = "UTF-8">
     <title> DavanteDent </title> 
     <link rel="stylesheet" href="style.css">
-
-
+    
 </head>
 
 <body>
@@ -23,8 +21,9 @@
 
     </header>
 
+    <!--formulario de citas -->
     <form id="formularioCita">
-
+        <!--campo oculto para guardar el id cuando se crea una cita -->
         <input type="hidden" id="citaId"> <br>
 
         <label>Fecha <input type="date" id="fecha"></label> <br>
@@ -44,7 +43,7 @@
         <label>Observaciones <textarea id="observaciones"></textarea> </label> <br>
         <span class="mensajeError" id="errorObserv" hidden>El campo observaciones es obligatorio</span>
 
-        
+        <!--botones del formulario-->
         <div id="botones">
         <input type="submit" id="guardar" value="Guardar"> 
         <input type="button" id="limpiar" value="Limpiar"> 

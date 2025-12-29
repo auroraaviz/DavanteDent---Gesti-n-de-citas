@@ -65,7 +65,10 @@ function getCitasCookie() {
 
 //función para guardar citas en la cookies
 function guardarCitasCookie(citas) {
-    document.cookie = "citasDavante=" + encodeURIComponent(JSON.stringify(citas)) + "; path=/";
+    const fechaExpiracion = new Date();
+    fechaExpiracion.setDate(fechaExpiracion.getDate() + 60); // se borran en 60 dias
+    document.cookie = "citasDavante=" + encodeURIComponent(JSON.stringify(citas)) +
+                      "; expires=" + fechaExpiracion.toUTCString() + "; path=/";
 }
 
 //función para limpiar el formulario
@@ -96,8 +99,12 @@ function validarFormulario() {
     }
 
     if (nombre.value === "") {
-        error = true; 
+        error = true;
         errorNombre.hidden = false;
+    } else if (!isNaN(nombre.value)) { 
+        error = true;
+        errorNombre.hidden = false;
+        errorNombre.textContent = "El nombre no puede ser solo números";
     } else {
         errorNombre.hidden = true;
     }
@@ -105,13 +112,21 @@ function validarFormulario() {
     if (apellidos.value === "") {
         error = true;
         errorApellidos.hidden = false;
+    } else if (!isNaN(apellidos.value)) {  
+        error = true;
+        errorApellidos.hidden = false;
+        errorApellidos.textContent = "Los apellidos no pueden ser solo números";
     } else {
         errorApellidos.hidden = true;
     }
 
-    if(dni.value === "") {
+    if (dni.value === "") {
         error = true;
         errorDni.hidden = false;
+    } else if (dni.value.length < 8) {
+        error = true;
+        errorDni.hidden = false;
+        errorDni.textContent = "El DNI no es válido";
     } else {
         errorDni.hidden = true;
     }
@@ -119,7 +134,6 @@ function validarFormulario() {
     if(telefono.value === "") { 
         error = true;
         errorTelf.hidden = false; 
-        errorTelf.textContent = "El teléfono es obligatorio";
     } else if (isNaN(telefono.value)) {
         error = true;
         errorTelf.hidden = false;
@@ -211,7 +225,10 @@ function citasDavante() {
 formulario.addEventListener("submit", function (event) {
     //evita que el formulario recargue la pag
     event.preventDefault();
-    console.log("Formulario no enviado");
+    
+    console.log("Editando id:", document.getElementById("citaId").value);
+    console.log("Fila editando:", filaEditando);
+    
     validarFormulario();
 
     //si hay errores no continúa
@@ -266,11 +283,11 @@ formulario.addEventListener("submit", function (event) {
 
         citas.push(cita);
         guardarCitasCookie(citas);
-    }
         removeEmptyRow();
-        
         //refresca la tabla
         citasDavante();
+    }
+        
         limpiarFormulario(); 
 }); 
 
