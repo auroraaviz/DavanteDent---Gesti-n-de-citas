@@ -24,3 +24,6 @@ tabla de citas y almacenamiento local en cookies. Implementado con **HTML, CSS y
 1. Clona este repositorio:
    ```bash
    git clone https://github.com/auroraaviz/DavanteDent---Gesti-n-de-citas.git
+
+## 👩‍💻 Autora
+Aurora Aviz
